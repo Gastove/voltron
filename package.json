@@ -1,0 +1,22 @@
+{
+  "name": "voltron",
+  "version": "1.0.0",
+  "description": "An attempt at Combination",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Gastove/voltron.git"
+  },
+  "author": "Ross M. Donaldson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gastove/voltron/issues"
+  },
+  "homepage": "https://github.com/Gastove/voltron#readme",
+  "devDependencies": {
+    "source-map-support": "^0.4.15"
+  }
+}
