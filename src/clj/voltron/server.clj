@@ -5,7 +5,8 @@
             [clojure.java.io :as io]
             [org.httpkit.server :as server]
             [ring.middleware.basic-authentication :as basic]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [ring.middleware.content-type :refer [wrap-content-type]]
+            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
             [ring.middleware.json :refer [wrap-json-body]]
             [ring.middleware.reload :as reload]
             [ring.middleware.resource :refer [wrap-resource]]
@@ -15,16 +16,18 @@
             [environ.core :refer [env]]))
 
 (defroutes application-routes
-  (GET "*" []
+  (route/resources "/")
+  (GET "/" []
        {:status 200
         :headers {"Content-Type" "text/html"}
         :body (slurp (io/resource "public/index.html"))})
-  (route/resources "/"))
+  )
 
 (defn create-application
   [app-handlers]
-  (-> (wrap-defaults app-handlers site-defaults)
+  (-> (wrap-defaults app-handlers api-defaults)
       ;; (wrap-trim-trailing-slash)
+      (wrap-content-type)
       (wrap-json-body)
       ;; (wrap-route-not-found)
       (reload/wrap-reload)
@@ -36,8 +39,8 @@
       ))
 
 (defn -main [& [port]]
-  (let [port (Integer. (or port (env :port) 5000))
+  (let [port (Integer. (or port (env :port) 8080))
         ;; store (cookie/cookie-store {:key (env :session-secret)})
         application (create-application application-routes)]
-    (server/run-server application {:port 5000})
+    (server/run-server application {:port port})
     ))
