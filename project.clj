@@ -25,7 +25,11 @@
 
                  [cheshire "5.7.1"]
                  [com.cemerick/drawbridge "0.0.7"]
-                 [environ "1.1.0"]]
+                 [environ "1.1.0"]
+                 [cljs-http "0.1.43"]
+
+                 ;; Who doesn't love CLJSJS
+                 [cljsjs/marked "0.3.5-0"]]
 
   :main ^:skip-aot voltron.server
 
@@ -56,6 +60,7 @@
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/voltron.js"
                            :output-dir "resources/public/js/compiled/out"
+                           :source-map true
                            :source-map-timestamp true
                            ;; To console.log CLJS data-structures make sure you enable devtools in Chrome
                            ;; https://github.com/binaryage/cljs-devtools
@@ -66,8 +71,11 @@
                {:id "min"
                 :source-paths ["src/cljs"]
                 :compiler {:output-to "resources/public/js/compiled/voltron.js"
+                           :output-dir "resources/public/js/compiled/"
                            :main voltron.core
+                           ;; :asset-path "js/compiled"
                            :optimizations :advanced
+                           :source-map "resources/public/js/compiled/voltron.js.map"
                            :pretty-print false}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
